@@ -1,10 +1,10 @@
-class person{
-    constructor(name, age){
+class person {
+    constructor(name, age) {
         this.name = name;
         this.age = age;
     }
 
-    toString(){
+    toString() {
         return `{Name: ${this.name}, age: ${this.age}}`;
     }
 }
@@ -12,13 +12,48 @@ class person{
 
 //Write map, forEach, reduce and filter implementations here.
 
+//forRach implementation
+function forEach(list, callback) {
+    for (let index = 0; index < list.length; index++) {
+        const element = list[index];
+        callback(element, index);
+    }
+}
 
+//map implementation
+function map(list, callback) {
+    let newList = [];
+    for (let index = 0; index < list.length; index++) {
+        const element = list[index];
+        newList[index] = callback(element, index);
+    }
+    return newList;
+}
 
+//filter implementation
+function filter(list, callback) {
+    let newList = [];
+    for (let index = 0; index < list.length; index++) {
+        const element = list[index];
+        if (callback(element, index)) {
+            newList[newList.length] = element;
+        } else {
+            continue;
+        }
+    }
+    return newList;
+}
 
-
-
-
-
+//reduce implementation
+function reduce(list, callback, initialValue = 0) {
+    let previousValue = initialValue;
+    for (let index = 0; index < list.length; index++) {
+        const currentValue = list[index];
+        console.log(currentValue);
+        previousValue = callback(previousValue, currentValue, index);
+    }
+    return previousValue;
+}
 
 
 //Initialising a list of persons
@@ -26,33 +61,50 @@ let people = [new person("A", 20), new person("B", 25), new person("C", 40), new
 console.log(people.toString());
 const peopleList = people.toString();
 
+
 //map Test
-const newPeople = people.map((element) => {
+const newPeople = map(people, (element) => {
+    const newPerson = new person(element.name, element.age);
+    newPerson.age += 2;
+    return newPerson;
+});
+/* const newPeople = people.map((element) => {                                                                      //Original Implementation
     const newPerson = new person(element.name, element.age);
     newPerson.age +=2;
     return newPerson;
-});
+}); */
 console.log(newPeople.toString());
 const agedList = "The ages of the people in party after 2 years will be: " + newPeople.toString();
 
 
 //filter Test
-const adults = people.filter((element, index) => element.age >=18)
+const adults = filter(
+        people, (element, index) => element.age >= 18
+    );
+/* const adults = people.filter(                                                                                    //Original Implementation
+        (element, index) => element.age >=18
+    ); */
 console.log(adults.toString());
 const adultList = "The list of adults in the party is: " + adults.toString();
 
 
 //forEach Test
 const ages = [];
-people.forEach(element => {
+forEach(people, (element) => {
     ages.push(element.age);
 });
+/* people.forEach(element => {                                                                                      //Original Implementation
+    ages.push(element.age);
+}); */
 console.log(ages);
 const ageList = "The ages of the people in party are: " + ages.toString();
 
 
 //reduce Test
-const totalAge = ages.reduce((totalYet, currentAge) => totalYet + currentAge);
+const totalAge = reduce(ages, (totalYet, currentAge) => totalYet + currentAge);
+/* const totalAge = ages.reduce(                                                                                    //Original Implementation
+        (totalYet, currentAge) => totalYet + currentAge
+    ); */                                
 console.log(totalAge);
 const totalAgeNumber = "The total of age of everyone in the party is: " + totalAge;
 
